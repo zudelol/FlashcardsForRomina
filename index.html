@@ -1,36 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>JUST FUCKING STUDY!</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             background-color: #313131;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .flashcard {
             width: 400px;
             height: 200px;
-            background-color: #c636ff;
-            border: 2px solid #000;
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: Arial, sans-serif;
             font-size: 20px;
             font-weight: bold;
             color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
-            cursor: pointer;
-            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border: 2px solid #000;
             padding: 20px;
-            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .flashcard-front {
+            background-color: #c636ff;
+        }
+
+        .flashcard-back {
+            background-color: #6a00ff;
+            transform: rotateY(-180deg);
+        }
+
+        #controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
         }
 
         button {
@@ -42,25 +87,26 @@
             color: white;
             border-radius: 5px;
             cursor: pointer;
-            margin: 5px;
         }
 
         button:hover {
             background-color: #555;
         }
-
-        #controls {
-            display: flex;
-            gap: 10px;
-        }
     </style>
 </head>
 <body>
-    <div id="flashcard" class="flashcard">Loading...</div>
+    <div class="container">
+        <div class="flashcard" id="flashcard">
+            <div class="flashcard-inner" id="flashcardInner">
+                <div class="flashcard-front" id="cardFront">Loading...</div>
+                <div class="flashcard-back" id="cardBack"></div>
+            </div>
+        </div>
 
-    <div id="controls">
-        <button id="nextBtn">Next</button>
-        <button id="restartBtn" style="display: none;">Restart</button>
+        <div id="controls">
+            <button id="nextBtn">Next</button>
+            <button id="restartBtn" style="display: none;">Restart</button>
+        </div>
     </div>
 
     <script>
@@ -75,16 +121,15 @@
             flip() {
                 this.isFlipped = !this.isFlipped;
             }
-
-            getText() {
-                return this.isFlipped ? this.answer : this.question;
-            }
         }
 
         let flashcards = [];
         let currentCard;
 
-        const cardElement = document.getElementById("flashcard");
+        const flashcard = document.getElementById("flashcard");
+        const cardInner = document.getElementById("flashcardInner");
+        const cardFront = document.getElementById("cardFront");
+        const cardBack = document.getElementById("cardBack");
         const nextButton = document.getElementById("nextBtn");
         const restartButton = document.getElementById("restartBtn");
 
@@ -96,26 +141,40 @@
         }
 
         function showRandomCard() {
-            const remaining = flashcards.filter(card => card.timesShown < 2);
+    nextButton.disabled = true;
 
-            if (remaining.length === 0) {
-                cardElement.textContent = "You’ve seen all cards twice!";
-                nextButton.style.display = "none";
-                restartButton.style.display = "inline-block";
-                return;
-            }
+    cardInner.classList.remove("flipped");
 
-            const randomIndex = Math.floor(Math.random() * remaining.length);
-            currentCard = remaining[randomIndex];
-            currentCard.isFlipped = false;
-            cardElement.textContent = currentCard.getText();
-            currentCard.timesShown++;
+  
+    setTimeout(() => {
+        const remaining = flashcards.filter(card => card.timesShown < 2);
+
+        if (remaining.length === 0) {
+            cardFront.textContent = "You’ve seen all cards twice!";
+            cardBack.textContent = "";
+            nextButton.style.display = "none";
+            restartButton.style.display = "inline-block";
+            nextButton.disabled = false;
+            return;
         }
 
-        cardElement.addEventListener("click", () => {
+        const randomIndex = Math.floor(Math.random() * remaining.length);
+        currentCard = remaining[randomIndex];
+        currentCard.isFlipped = false;
+
+    
+        cardFront.textContent = currentCard.question;
+        cardBack.textContent = currentCard.answer;
+        currentCard.timesShown++;
+
+        nextButton.disabled = false;
+    }, 200);
+}
+
+        cardInner.addEventListener("click", () => {
             if (currentCard) {
                 currentCard.flip();
-                cardElement.textContent = currentCard.getText();
+                cardInner.classList.toggle("flipped");
             }
         });
 
