@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JUST FUCKING STUDY!</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #313131;
+        }
+
+        .flashcard {
+            width: 400px;
+            height: 200px;
+            background-color: #c636ff;
+            border: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid #000;
+            background-color: #6f6f6f;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        #controls {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="flashcard" class="flashcard">Loading...</div>
+
+    <div id="controls">
+        <button id="nextBtn">Next</button>
+        <button id="restartBtn" style="display: none;">Restart</button>
+    </div>
+
+    <script>
+        class Flashcard {
+            constructor(question, answer) {
+                this.question = question;
+                this.answer = answer;
+                this.timesShown = 0;
+                this.isFlipped = false;
+            }
+
+            flip() {
+                this.isFlipped = !this.isFlipped;
+            }
+
+            getText() {
+                return this.isFlipped ? this.answer : this.question;
+            }
+        }
+
+        let flashcards = [];
+        let currentCard;
+
+        const cardElement = document.getElementById("flashcard");
+        const nextButton = document.getElementById("nextBtn");
+        const restartButton = document.getElementById("restartBtn");
+
+        async function loadFlashcards() {
+            const response = await fetch('flashcards.json');
+            const data = await response.json();
+            flashcards = data.map(item => new Flashcard(item.question, item.answer));
+            showRandomCard();
+        }
+
+        function showRandomCard() {
+            const remaining = flashcards.filter(card => card.timesShown < 2);
+
+            if (remaining.length === 0) {
+                cardElement.textContent = "You’ve seen all cards twice!";
+                nextButton.style.display = "none";
+                restartButton.style.display = "inline-block";
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * remaining.length);
+            currentCard = remaining[randomIndex];
+            currentCard.isFlipped = false;
+            cardElement.textContent = currentCard.getText();
+            currentCard.timesShown++;
+        }
+
+        cardElement.addEventListener("click", () => {
+            if (currentCard) {
+                currentCard.flip();
+                cardElement.textContent = currentCard.getText();
+            }
+        });
+
+        nextButton.addEventListener("click", showRandomCard);
+
+        restartButton.addEventListener("click", () => {
+            flashcards.forEach(card => card.timesShown = 0);
+            restartButton.style.display = "none";
+            nextButton.style.display = "inline-block";
+            showRandomCard();
+        });
+
+        loadFlashcards();
+    </script>
+</body>
+</html>
