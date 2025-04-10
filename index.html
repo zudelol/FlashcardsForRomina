@@ -10,17 +10,55 @@
 
         body {
             margin: 0;
-            height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #313131;
+            height: 100vh;
             font-family: Arial, sans-serif;
+            background-color: #313131;
+        }
+
+        #sidebar {
+            width: 200px;
+            background-color: #1e1e1e;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        #sidebar h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #sidebar li {
+            padding: 10px;
+            background-color: #3a3a3a;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        #sidebar li.selected {
+            border: 2px solid #c636ff;
+            background-color: #4a4a4a;
+        }
+
+
+        #sidebar li:hover {
+            background-color: #555;
         }
 
         .container {
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
         }
 
@@ -95,6 +133,15 @@
     </style>
 </head>
 <body>
+    <div id="sidebar">
+        <h2>Topics</h2>
+        <ul>
+            <li onclick="loadTopic('math')">Math</li>
+            <li onclick="loadTopic('history')">History</li>
+            <li onclick="loadTopic('programming')">Programming</li>
+        </ul>
+    </div>
+
     <div class="container">
         <div class="flashcard" id="flashcard">
             <div class="flashcard-inner" id="flashcardInner">
@@ -133,43 +180,64 @@
         const nextButton = document.getElementById("nextBtn");
         const restartButton = document.getElementById("restartBtn");
 
-        async function loadFlashcards() {
-            const response = await fetch('flashcards.json');
-            const data = await response.json();
-            flashcards = data.map(item => new Flashcard(item.question, item.answer));
-            showRandomCard();
-        }
+        async function loadTopic(topicName) {
+    try {
+        // Remove 'selected' class from all topic buttons
+        const topicButtons = document.querySelectorAll('#sidebar li');
+        topicButtons.forEach(btn => btn.classList.remove('selected'));
+
+        // Add 'selected' class to the clicked button
+        const selectedButton = Array.from(topicButtons).find(btn => 
+            btn.textContent.toLowerCase() === topicName.toLowerCase()
+        );
+        if (selectedButton) selectedButton.classList.add('selected');
+
+        // Load flashcards
+        const response = await fetch(`flashcards/${topicName}.json`);
+        const data = await response.json();
+        flashcards = data.map(item => new Flashcard(item.question, item.answer));
+
+        restartButton.style.display = "none";
+        nextButton.style.display = "inline-block";
+        flashcards.forEach(card => card.timesShown = 0);
+        showRandomCard();
+    } catch (error) {
+        console.error("Failed to load flashcards:", error);
+        cardFront.textContent = `Error loading ${topicName}.json`;
+        cardBack.textContent = "";
+        cardInner.classList.remove("flipped");
+    }
+}
 
         function showRandomCard() {
-    nextButton.disabled = true;
+            nextButton.disabled = true;
 
-    cardInner.classList.remove("flipped");
+            // Reset flip before updating content
+            cardInner.classList.remove("flipped");
 
-  
-    setTimeout(() => {
-        const remaining = flashcards.filter(card => card.timesShown < 2);
+            setTimeout(() => {
+                const remaining = flashcards.filter(card => card.timesShown < 2);
 
-        if (remaining.length === 0) {
-            cardFront.textContent = "You’ve seen all cards twice!";
-            cardBack.textContent = "";
-            nextButton.style.display = "none";
-            restartButton.style.display = "inline-block";
-            nextButton.disabled = false;
-            return;
+                if (remaining.length === 0) {
+                    cardFront.textContent = "You’ve seen all cards twice!";
+                    cardBack.textContent = "";
+                    nextButton.style.display = "none";
+                    restartButton.style.display = "inline-block";
+                    nextButton.disabled = false;
+                    return;
+                }
+
+                const randomIndex = Math.floor(Math.random() * remaining.length);
+                currentCard = remaining[randomIndex];
+                currentCard.isFlipped = false;
+
+                cardFront.textContent = currentCard.question;
+                cardBack.textContent = currentCard.answer;
+                currentCard.timesShown++;
+
+                nextButton.disabled = false;
+            }, 600); // matches transition time
         }
-
-        const randomIndex = Math.floor(Math.random() * remaining.length);
-        currentCard = remaining[randomIndex];
-        currentCard.isFlipped = false;
-
-    
-        cardFront.textContent = currentCard.question;
-        cardBack.textContent = currentCard.answer;
-        currentCard.timesShown++;
-
-        nextButton.disabled = false;
-    }, 200);
-}
 
         cardInner.addEventListener("click", () => {
             if (currentCard) {
@@ -187,7 +255,8 @@
             showRandomCard();
         });
 
-        loadFlashcards();
+        // Load default topic on page load
+        window.onload = () => loadTopic('math');
     </script>
 </body>
 </html>

@@ -1,0 +1,198 @@
+[
+    {
+        "question": "Was ist Java?",
+        "answer": "Java ist eine objektorientierte Programmiersprache, die von Sun Microsystems entwickelt wurde."
+    },
+    {
+        "question": "Was bedeutet JVM?",
+        "answer": "JVM steht für Java Virtual Machine."
+    },
+    {
+        "question": "Was ist JDK?",
+        "answer": "JDK steht für Java Development Kit."
+    },
+    {
+        "question": "Was ist JRE?",
+        "answer": "JRE steht für Java Runtime Environment."
+    },
+    {
+        "question": "Was ist eine Klasse in Java?",
+        "answer": "Eine Klasse ist eine Vorlage für Objekte und definiert deren Eigenschaften und Methoden."
+    },
+    {
+        "question": "Was ist ein Objekt in Java?",
+        "answer": "Ein Objekt ist eine Instanz einer Klasse."
+    },
+    {
+        "question": "Was bedeutet OOP?",
+        "answer": "OOP steht für objektorientierte Programmierung."
+    },
+    {
+        "question": "Was ist Vererbung in Java?",
+        "answer": "Vererbung erlaubt es einer Klasse, Eigenschaften und Methoden einer anderen Klasse zu übernehmen."
+    },
+    {
+        "question": "Was ist Polymorphismus in Java?",
+        "answer": "Polymorphismus ermöglicht es, dass eine Methode unterschiedliche Formen annehmen kann."
+    },
+    {
+        "question": "Was ist eine abstrakte Klasse?",
+        "answer": "Eine abstrakte Klasse kann nicht instanziiert werden und enthält möglicherweise abstrakte Methoden."
+    },
+    {
+        "question": "Was ist ein Interface in Java?",
+        "answer": "Ein Interface definiert eine Sammlung abstrakter Methoden, die von einer Klasse implementiert werden müssen."
+    },
+    {
+        "question": "Was ist der Unterschied zwischen == und equals()?",
+        "answer": "== vergleicht Referenzen, equals() vergleicht den Inhalt von Objekten."
+    },
+    {
+        "question": "Was ist eine Methode?",
+        "answer": "Eine Methode ist eine Funktion, die in einer Klasse definiert ist."
+    },
+    {
+        "question": "Was ist der Unterschied zwischen public, private und protected?",
+        "answer": "Diese Schlüsselwörter definieren die Sichtbarkeit von Klassenmitgliedern."
+    },
+    {
+        "question": "Was ist eine statische Methode?",
+        "answer": "Eine statische Methode gehört zur Klasse und nicht zu einem Objekt."
+    },
+    {
+        "question": "Was ist ein Konstruktor?",
+        "answer": "Ein Konstruktor ist eine spezielle Methode, die beim Erzeugen eines Objekts aufgerufen wird."
+    },
+    {
+        "question": "Was ist Überladen von Methoden?",
+        "answer": "Mehrere Methoden mit gleichem Namen, aber unterschiedlichen Parametern."
+    },
+    {
+        "question": "Was ist Überschreiben von Methoden?",
+        "answer": "Eine Methode in einer Subklasse hat die gleiche Signatur wie in der Oberklasse."
+    },
+    {
+        "question": "Was ist ein Paket (Package)?",
+        "answer": "Ein Package ist ein Namensraum, der Klassen und Interfaces gruppiert."
+    },
+    {
+        "question": "Was ist eine Ausnahme (Exception)?",
+        "answer": "Eine Ausnahme ist ein Problem, das während der Programmausführung auftritt."
+    },
+    {
+        "question": "Was ist der Unterschied zwischen checked und unchecked Exceptions?",
+        "answer": "Checked Exceptions müssen behandelt werden, unchecked nicht unbedingt."
+    },
+    {
+        "question": "Wie behandelt man Ausnahmen in Java?",
+        "answer": "Mit try, catch und finally Blöcken."
+    },
+    {
+        "question": "Was ist finally?",
+        "answer": "Ein Block, der nach try und catch immer ausgeführt wird."
+    },
+    {
+        "question": "Was ist throw in Java?",
+        "answer": "Mit throw kann man eine Exception manuell auslösen."
+    },
+    {
+        "question": "Was ist throws in einer Methodensignatur?",
+        "answer": "Es zeigt an, dass die Methode eine Exception werfen kann."
+    },
+    {
+        "question": "Was ist eine ArrayList?",
+        "answer": "Eine dynamische Datenstruktur, die wie ein Array funktioniert."
+    },
+    {
+        "question": "Was ist ein HashMap?",
+        "answer": "Eine Datenstruktur, die Schlüssel-Wert-Paare speichert."
+    },
+    {
+        "question": "Was ist eine Schleife in Java?",
+        "answer": "Ein Konstrukt, um Anweisungen mehrfach auszuführen."
+    },
+    {
+        "question": "Welche Schleifentypen gibt es in Java?",
+        "answer": "for, while und do-while."
+    },
+    {
+        "question": "Was ist eine if-Bedingung?",
+        "answer": "Ein Kontrollflusskonstrukt zur bedingten Ausführung von Code."
+    },
+    {
+        "question": "Was ist eine switch-Anweisung?",
+        "answer": "Ein Kontrollstruktur, um mehrere Bedingungen effizient zu überprüfen."
+    },
+    {
+        "question": "Was bedeutet 'null' in Java?",
+        "answer": "'null' bedeutet, dass eine Variable keinen Wert oder kein Objekt referenziert."
+    },
+    {
+        "question": "Was ist eine Enumeration (enum)?",
+        "answer": "Ein spezieller Datentyp zur Definition von Konstanten."
+    },
+    {
+        "question": "Was ist eine Lambda-Ausdruck in Java?",
+        "answer": "Ein Ausdruck, der eine anonyme Funktion darstellt."
+    },
+    {
+        "question": "Seit welcher Version unterstützt Java Lambda-Ausdrücke?",
+        "answer": "Seit Java 8."
+    },
+    {
+        "question": "Was ist eine Wrapper-Klasse?",
+        "answer": "Eine Klasse, die primitive Datentypen in Objekte verpackt."
+    },
+    {
+        "question": "Was ist Autoboxing?",
+        "answer": "Die automatische Umwandlung eines primitiven Typs in ein Objekt."
+    },
+    {
+        "question": "Was ist Unboxing?",
+        "answer": "Die automatische Umwandlung eines Objekts in einen primitiven Typ."
+    },
+    {
+        "question": "Was ist eine rekursive Methode?",
+        "answer": "Eine Methode, die sich selbst aufruft."
+    },
+    {
+        "question": "Was ist Garbage Collection in Java?",
+        "answer": "Ein Prozess zur automatischen Speicherbereinigung."
+    },
+    {
+        "question": "Was ist Synchronisation in Java?",
+        "answer": "Ein Mechanismus, um den gleichzeitigen Zugriff auf Ressourcen zu steuern."
+    },
+    {
+        "question": "Was ist Multithreading?",
+        "answer": "Die gleichzeitige Ausführung mehrerer Threads."
+    },
+    {
+        "question": "Wie erstellt man einen Thread in Java?",
+        "answer": "Entweder durch Vererbung von Thread oder Implementierung von Runnable."
+    },
+    {
+        "question": "Was ist ein Daemon-Thread?",
+        "answer": "Ein Hintergrund-Thread, der beendet wird, wenn alle Nicht-Daemon-Threads beendet sind."
+    },
+    {
+        "question": "Was ist die main-Methode in Java?",
+        "answer": "Der Einstiegspunkt eines Java-Programms: public static void main(String[] args)."
+    },
+    {
+        "question": "Was ist Reflection in Java?",
+        "answer": "Eine API, mit der man Klassen und Methoden zur Laufzeit analysieren kann."
+    },
+    {
+        "question": "Was ist der Unterschied zwischen Stack und Heap?",
+        "answer": "Stack speichert primitive Variablen und Methodenaufrufe, Heap speichert Objekte."
+    },
+    {
+        "question": "Was ist eine Serialisierung?",
+        "answer": "Der Prozess, ein Objekt in ein Byte-Stream umzuwandeln."
+    },
+    {
+        "question": "Wie kann man ein Objekt serialisieren?",
+        "answer": "Durch Implementierung des Serializable-Interfaces."
+    }
+]
