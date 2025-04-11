@@ -25,6 +25,7 @@
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
         }
 
+
         #sidebar h2 {
             font-size: 20px;
             margin-bottom: 10px;
@@ -111,6 +112,31 @@
             transform: rotateY(-180deg);
         }
 
+        .scrollable-sidebar {
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #444 #1e1e1e;
+        }
+
+        
+        .scrollable-sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollable-sidebar::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }   
+
+        .scrollable-sidebar::-webkit-scrollbar-thumb {
+            background-color: #444;
+            border-radius: 4px;
+            border: 2px solid #1e1e1e;
+        }
+
+        .scrollable-sidebar::-webkit-scrollbar-thumb:hover {
+            background-color: #666;
+        }
+
         #controls {
             display: flex;
             justify-content: center;
@@ -183,17 +209,17 @@
 
         async function loadTopic(topicName) {
     try {
-        // Remove 'selected' class from all topic buttons
+        
         const topicButtons = document.querySelectorAll('#sidebar li');
         topicButtons.forEach(btn => btn.classList.remove('selected'));
 
-        // Add 'selected' class to the clicked button
+
         const selectedButton = Array.from(topicButtons).find(btn => 
             btn.textContent.toLowerCase() === topicName.toLowerCase()
         );
         if (selectedButton) selectedButton.classList.add('selected');
 
-        // Load flashcards
+
         const response = await fetch(`flashcards/${topicName}.json`);
         const data = await response.json();
         flashcards = data.map(item => new Flashcard(item.question, item.answer));
@@ -213,7 +239,6 @@
         function showRandomCard() {
             nextButton.disabled = true;
 
-            // Reset flip before updating content
             cardInner.classList.remove("flipped");
 
             setTimeout(() => {
@@ -237,7 +262,7 @@
                 currentCard.timesShown++;
 
                 nextButton.disabled = false;
-            }, 125); // matches transition time
+            }, 125); 
         }
 
         cardInner.addEventListener("click", () => {
@@ -256,8 +281,18 @@
             showRandomCard();
         });
 
-        // Load default topic on page load
-        window.onload = () => loadTopic('math');
+    
+        window.onload = () => {
+    loadTopic('math');
+
+    const sidebar = document.getElementById("sidebar");
+    const topicItems = sidebar.querySelectorAll("ul li");
+
+    if (topicItems.length >= 13) {
+        sidebar.classList.add("scrollable-sidebar");
+    }
+};
+
     </script>
 </body>
 </html>
